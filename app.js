@@ -1,33 +1,29 @@
 function saveNote() {
-  const note = document.getElementById('note').value;
-  if (note) {
-    let notes = JSON.parse(localStorage.getItem('notes')) || [];
-    notes.push(note);
+  const noteText = document.getElementById('note').value.trim();
+  if (noteText) {
+    const notes = JSON.parse(localStorage.getItem('notes')) || [];
+
+    const newNote = {
+      id: Date.now(), // unique ID based on timestamp
+      text: noteText
+    };
+
+    notes.push(newNote);
     localStorage.setItem('notes', JSON.stringify(notes));
-    showNotes();
+    document.getElementById('note').value = ''; // Clear input
+    renderNotes();
   }
 }
 
-function showNotes() {
-  const notes = JSON.parse(localStorage.getItem('notes')) || [];
-  const notesDiv = document.getElementById('notes');
-  notesDiv.innerHTML = notes.map(n => `<p>${n}</p>`).join('');
+function deleteNote(id) {
+  let notes = JSON.parse(localStorage.getItem('notes')) || [];
+  notes = notes.filter(note => note.id !== id);
+  localStorage.setItem('notes', JSON.stringify(notes));
+  renderNotes();
 }
-
-showNotes();
-
-function clearNotes() {
-  localStorage.removeItem('notes');
-  showNotes();
-}
-
-
-let notes = [
-  { id: 1, text: "First note" },
-  { id: 2, text: "Second note" },
-];
 
 function renderNotes() {
+  const notes = JSON.parse(localStorage.getItem('notes')) || [];
   const notesList = document.getElementById("notes-list");
   notesList.innerHTML = "";
 
@@ -35,27 +31,21 @@ function renderNotes() {
     const li = document.createElement("li");
     li.textContent = note.text;
 
-    // Create Delete button
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "Delete";
     deleteBtn.style.marginLeft = "10px";
-
-    // On click, delete the note
-    deleteBtn.onclick = () => {
-      deleteNote(note.id);
-    };
+    deleteBtn.onclick = () => deleteNote(note.id);
 
     li.appendChild(deleteBtn);
     notesList.appendChild(li);
   });
 }
 
-function deleteNote(id) {
-  // Filter out the note with the matching id
-  notes = notes.filter(note => note.id !== id);
-  renderNotes();
-}
-
 // Initial render
 renderNotes();
 
+
+function clearNotes() {
+  localStorage.removeItem('notes');
+  renderNotes();
+}
