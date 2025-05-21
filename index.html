@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Notes App</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <h1>My Notes</h1>
-  <textarea id="note" placeholder="Write your note here..."></textarea>
-  <button onclick="saveNote()">Save Note</button>
-  <div id="notes"></div>
+  <head>
+    <title>Notes App</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    
 
-  <script src="app.js"></script>
-</body>
+    <h1>My Notes</h1>
+    <textarea id="note" placeholder="Write your note here..."></textarea>
+    <button onclick="saveNote()">Save Note</button>
+    <div id="notes">
+
+        <ul id="notes-list">
+      <!-- Notes will be listed here -->
+    </ul>
+
+    </div>
+
+    <script src="app.js"></script>
+  </body>
 </html>
